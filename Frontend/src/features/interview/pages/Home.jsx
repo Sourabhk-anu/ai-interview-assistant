@@ -30,19 +30,23 @@ const Home = () => {
 
         try {
 
-            await fetch(`${import.meta.env.VITE_BASE_URL}/api/logout`, {
-                method: "POST",
-                credentials: "include"
-            })
+            await fetch(
+                `${import.meta.env.VITE_BASE_URL}/api/auth/logout`,
+                {
+                    method: "POST",
+                    credentials: "include"
+                }
+            );
 
-            localStorage.removeItem("user")
+            localStorage.removeItem("user");
 
-            window.location.href = "/login"
+            window.location.href = "/login";
 
         } catch (error) {
-            console.error(error)
+
+            console.error("Logout error:", error);
         }
-    }
+    };
 
     return (
         <div className='home-page'>
