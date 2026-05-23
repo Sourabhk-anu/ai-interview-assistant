@@ -37,10 +37,22 @@ export const logout = async () => {
 };
 
 export const getMe = async () => {
+
     try {
-        const response = await api.get('/api/auth/get-me');
-        return response.data;
+
+        const response = await api.get("/api/auth/get-me")
+
+        setUser(response.data.user)
+
     } catch (error) {
-        console.error(error);
+
+        if (error.response?.status === 401) {
+
+            setUser(null)
+
+            return
+        }
+
+        console.error(error)
     }
-};
+}
