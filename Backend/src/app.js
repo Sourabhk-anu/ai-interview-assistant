@@ -8,9 +8,10 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://ai-interview-assistant-3-7iwm.onrender.com",
     credentials: true
-}));
+}))
+console.log("UPDATED BACKEND DEPLOYED")
 app.use(express.json());
 app.use(cookieParser());
 
