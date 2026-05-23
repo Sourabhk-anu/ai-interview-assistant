@@ -23,8 +23,6 @@ export const useAuth = () => {
 
         try {
 
-            setLoading(true);
-
             const response = await api.post(
                 "/api/auth/login",
                 data
@@ -44,15 +42,11 @@ export const useAuth = () => {
             console.error(error);
 
             return false;
-
-        } finally {
-
-            setLoading(false);
         }
     };
 
     const handleRegister = async ({ username, email, password }) => {
-        setLoading(true)
+        // setLoading(true)
 
         try {
             const data = await register({ username, email, password })
@@ -102,30 +96,36 @@ export const useAuth = () => {
 
     const getCurrentUser = async () => {
 
-    try {
+        try {
 
-        const response = await api.get(
-            "/api/auth/get-me"
-        );
+            setLoading(true);
 
-        setUser(response.data.user);
+            const response = await api.get(
+                "/api/auth/get-me"
+            );
 
-    } catch (error) {
+            setUser(response.data.user);
 
-        if (error.response?.status === 401) {
+        } catch (error) {
 
-            setUser(null);
+            if (error.response?.status === 401) {
 
-            return;
+                setUser(null);
+
+            } else {
+
+                console.error(error);
+            }
+
+        } finally {
+
+            setLoading(false);
         }
+    };
 
-        console.error(error);
-
-    } finally {
-
-        setLoading(false);
-    }
-};
+    useEffect(() => {
+        getCurrentUser();
+    }, []);
 
     return { user, setUser, loading, setLoading, handleLogin, handleRegister, handleLogout }
 }
