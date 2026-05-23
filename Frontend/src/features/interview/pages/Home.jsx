@@ -40,7 +40,7 @@ const Home = () => {
 
             localStorage.removeItem("user");
 
-            window.location.href = "/login";
+            navigate("/login")
 
         } catch (error) {
 
