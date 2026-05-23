@@ -22,33 +22,33 @@ export const useAuth = () => {
 
         try {
 
-            setLoading(true)
+            setLoading(true);
 
             const response = await api.post(
                 "/api/auth/login",
                 data
-            )
+            );
 
-            setUser(response.data.user)
+            setUser(response.data.user);
 
             localStorage.setItem(
                 "user",
                 JSON.stringify(response.data.user)
-            )
+            );
 
-            return true
+            return true;
 
         } catch (error) {
 
-            console.error(error)
+            console.error(error);
 
-            return false
+            return false;
 
         } finally {
 
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleRegister = async ({ username, email, password }) => {
         setLoading(true)
@@ -84,32 +84,44 @@ export const useAuth = () => {
         }
     }
 
+    // useEffect(() => {
+    //     const getAndSetUser = async () => {
+    //         try {
+    //             const data = await getMe();
+    //             setUser(data.user);
+    //         } catch (error) {
+    //             setUser(null);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     getAndSetUser();
+    // }, []);
+
+    const getCurrentUser = async () => {
+
+        try {
+
+            const response = await api.get(
+                "/api/auth/get-me"
+            );
+
+            setUser(response.data.user);
+
+        } catch (error) {
+
+            setUser(null);
+
+        } finally {
+
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const getAndSetUser = async () => {
-            try {
-                const data = await getMe();
-                setUser(data.user);
-            } catch (error) {
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        getAndSetUser();
+        getCurrentUser();
     }, []);
-
-    // const handleGetMe = async () => {
-    //     setLoading(true)
-    //     try {
-    //         const data = await getMe()
-    //         setUser(data.user)
-    //     } catch (error) {
-    //         console.error('Failed to get user info:', error)
-    //     } finally {
-    //         setLoading(false)
-    //     }
-    // }
 
     return { user, setUser, loading, setLoading, handleLogin, handleRegister, handleLogout }
 }
