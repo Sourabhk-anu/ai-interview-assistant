@@ -6,14 +6,46 @@ export const useAuth = () => {
     const context = useContext(AuthContext)
     const { user, setUser, loading, setLoading } = context
 
-    const handleLogin = async ({ email, password }) => {
-        setLoading(true)
+    // const handleLogin = async ({ email, password }) => {
+    //     setLoading(true)
+    //     try {
+    //         const data = await login({ email, password })
+    //         setUser(data.user)
+    //     } catch (error) {
+    //         console.error('Login failed:', error)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
+
+    const handleLogin = async (data) => {
+
         try {
-            const data = await login({ email, password })
-            setUser(data.user)
+
+            setLoading(true)
+
+            const response = await api.post(
+                "/api/auth/login",
+                data
+            )
+
+            setUser(response.data.user)
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.user)
+            )
+
+            return true
+
         } catch (error) {
-            console.error('Login failed:', error)
+
+            console.error(error)
+
+            return false
+
         } finally {
+
             setLoading(false)
         }
     }
