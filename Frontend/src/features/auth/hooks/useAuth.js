@@ -102,27 +102,30 @@ export const useAuth = () => {
 
     const getCurrentUser = async () => {
 
-        try {
+    try {
 
-            const response = await api.get(
-                "/api/auth/get-me"
-            );
+        const response = await api.get(
+            "/api/auth/get-me"
+        );
 
-            setUser(response.data.user);
+        setUser(response.data.user);
 
-        } catch (error) {
+    } catch (error) {
+
+        if (error.response?.status === 401) {
 
             setUser(null);
 
-        } finally {
-
-            setLoading(false);
+            return;
         }
-    };
 
-    useEffect(() => {
-        getCurrentUser();
-    }, []);
+        console.error(error);
+
+    } finally {
+
+        setLoading(false);
+    }
+};
 
     return { user, setUser, loading, setLoading, handleLogin, handleRegister, handleLogout }
 }
