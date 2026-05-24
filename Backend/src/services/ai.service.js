@@ -122,7 +122,8 @@ async function generatePdfFromHtml(htmlContent) {
         headless: true,
         args: [
             "--no-sandbox",
-            "--disable-setuid-sandbox"
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage"
         ]
     });
 
@@ -146,7 +147,6 @@ async function generatePdfFromHtml(htmlContent) {
 
     return pdfBuffer;
 }
-
 async function generateResumePdf({ resume, jobDescription, selfDescription }) {
     const resumePdfSchema = z.object({
         resume: z.string().describe("The candidate's resume in text format"),
