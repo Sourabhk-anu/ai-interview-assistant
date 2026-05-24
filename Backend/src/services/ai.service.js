@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const {z} = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
-const puppeteer = require("puppeteer");
+import { chromium } from "playwright";
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
@@ -118,19 +118,17 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 async function generatePdfFromHtml(htmlContent) {
 
-    const browser = await puppeteer.launch({
-        headless: true,
+    const browser = await chromium.launch({
         args: [
             "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage"
+            "--disable-setuid-sandbox"
         ]
     });
 
     const page = await browser.newPage();
 
     await page.setContent(htmlContent, {
-        waitUntil: "networkidle0"
+        waitUntil: "networkidle"
     });
 
     const pdfBuffer = await page.pdf({
@@ -147,6 +145,7 @@ async function generatePdfFromHtml(htmlContent) {
 
     return pdfBuffer;
 }
+
 async function generateResumePdf({ resume, jobDescription, selfDescription }) {
     const resumePdfSchema = z.object({
         resume: z.string().describe("The candidate's resume in text format"),
