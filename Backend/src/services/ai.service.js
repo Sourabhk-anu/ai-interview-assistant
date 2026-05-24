@@ -200,9 +200,11 @@ async function generateResumePdf({ resume, jobDescription, selfDescription }) {
                         // The content should be ATS friendly, i.e. it should be easily parsable by ATS systems without losing important information.
                         // The resume should not be so lengthy, it should ideally be 1-2 pages long when converted to PDF. Focus on quality rather than quantity and make sure to include all the relevant information that can increase the candidate's chances of getting an interview call for the given job description.
 
+                        // 
+                        
                         The response should be a JSON object with a single field called "content".
 
-                        Generate a professional ATS-friendly resume in plain text format.
+                        Generate a modern professional ATS-friendly resume.
 
                         The resume should:
                         - Be tailored for the given job description
@@ -213,8 +215,41 @@ async function generateResumePdf({ resume, jobDescription, selfDescription }) {
                         - Be ATS friendly
                         - Be approximately 1-2 pages long when converted into PDF
 
-                        Do NOT generate HTML, CSS, markdown, or code blocks.
-                        Return ONLY valid JSON.
+                        Design & Styling Requirements:
+                        - Add professional colors to:
+                        - Main headings
+                        - Section titles
+                        - Important skills
+                        - Technologies
+                        - Key achievements
+                        - Use subtle premium colors like:
+                        - Dark blue (#1e3a8a)
+                        - Teal (#0f766e)
+                        - Slate (#334155)
+                        - Keep the design clean and minimal
+                        - Do NOT use overly bright or flashy colors
+                        - Use proper spacing and alignment
+                        - Add visually attractive section separators
+                        - Make the resume look modern and premium
+                        - Ensure readability after PDF generation
+
+                        Content Requirements:
+                        - Include:
+                        - Professional Summary
+                        - Technical Skills
+                        - Experience
+                        - Projects
+                        - Education
+                        - Certifications (if relevant)
+                        - Highlight achievements with strong action words
+                        - Focus on job-relevant technologies and skills
+
+                        IMPORTANT:
+                        - Generate the resume content in styled HTML format inside the "content" field
+                        - Include inline CSS styling
+                        - Do NOT generate markdown
+                        - Do NOT generate code blocks
+                        - Return ONLY valid JSON
                     `
 
   const response = await ai.models.generateContent({
