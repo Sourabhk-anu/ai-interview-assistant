@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require("@google/genai");
 const {z} = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
-import { chromium } from "playwright";
+const { chromium } = require("playwright");
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
